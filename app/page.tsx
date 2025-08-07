@@ -1,0 +1,348 @@
+'use client'
+
+import Link from 'next/link'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { Star, Heart, Zap, Moon, Sun, Sparkles, ArrowRight } from 'lucide-react'
+import QuizCard from '@/components/quiz-card'
+import BlogCard from '@/components/blog-card'
+import { FloatingElements } from '@/components/floating-elements'
+import React, { useRef } from 'react'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+}
+
+export default function HomePage() {
+  const heroRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  })
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+
+  const featuredQuizzes = [
+    {
+      id: 1,
+      title: "What's Your Zodiac Personality?",
+      category: 'Astrology',
+      icon: Star,
+      description:
+        'Discover your true astrological nature and cosmic blueprint',
+    },
+    {
+      id: 2,
+      title: 'Love Compatibility Test',
+      category: 'Love',
+      icon: Heart,
+      description:
+        'Find your perfect romantic match through celestial alignment',
+    },
+    {
+      id: 3,
+      title: 'Your Life Path Number',
+      category: 'Numerology',
+      icon: Zap,
+      description: 'Uncover your destiny through sacred numerical wisdom',
+    },
+    {
+      id: 4,
+      title: 'Daily Tarot Reading',
+      category: 'Tarot',
+      icon: Moon,
+      description: 'Get mystical insights for your spiritual journey',
+    },
+    {
+      id: 5,
+      title: 'Spiritual Awakening Level',
+      category: 'Spiritual',
+      icon: Sun,
+      description: 'Measure your consciousness and spiritual evolution',
+    },
+  ]
+
+  const blogPosts = [
+    {
+      id: 1,
+      title: 'Mercury Retrograde: What It Really Means',
+      excerpt:
+        'Understanding the cosmic influence on communication and technology during this mystical period...',
+      date: '2024-01-15',
+      category: 'Astrology',
+    },
+    {
+      id: 2,
+      title: 'Finding Love Through Numerology',
+      excerpt:
+        'How your birth numbers can guide you to your soulmate and create lasting connections...',
+      date: '2024-01-12',
+      category: 'Love & Numerology',
+    },
+    {
+      id: 3,
+      title: 'Tarot Cards for Beginners: A Complete Guide',
+      excerpt:
+        'Start your tarot journey with these essential tips and mystical card meanings...',
+      date: '2024-01-10',
+      category: 'Tarot',
+    },
+  ]
+
+  return (
+    <div className="min-h-screen">
+      <FloatingElements />
+
+      {/* Hero Section */}
+      <motion.section
+        ref={heroRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative py-32 px-4 text-center overflow-hidden"
+      >
+        {/* Galaxy Background */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-br from-[#2C3E50] via-[#8E44AD] to-[#1B1B1B]"
+          style={{ y }}
+        />
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/30" />
+
+        {/* Optimized Stars */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(50)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute bg-[#ECF0F1] rounded-full opacity-60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${Math.random() * 2 + 1}px`,
+                height: `${Math.random() * 2 + 1}px`,
+              }}
+              animate={{
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: Math.random() * 2 + 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative max-w-6xl mx-auto z-10">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6, type: 'spring' }}
+            className="mb-8"
+          >
+            <div className="relative inline-block">
+              <Sparkles className="w-20 h-20 mx-auto mb-6 text-[#E67E22] drop-shadow-2xl float-animation" />
+              <motion.div
+                className="absolute -inset-4 bg-gradient-to-r from-[#E67E22]/20 to-[#E74C3C]/20 rounded-full blur-xl"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+            </div>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="text-6xl md:text-8xl font-heading font-bold mb-8 text-[#ECF0F1] drop-shadow-2xl"
+          >
+            <span className="galaxy-text-gradient">Discover Your</span>
+            <br />
+            <span className="galaxy-text-gradient">Cosmic Truth</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="text-xl md:text-2xl mb-12 text-[#ECF0F1]/90 max-w-4xl mx-auto leading-relaxed drop-shadow-lg font-body"
+          >
+            Unlock the mysteries of astrology, numerology, love, and tarot
+            through personalized quizzes and spiritual guidance
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          >
+            <motion.button
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center">
+                Start Your Journey
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-4 bg-[#2C3E50]/80 backdrop-blur-md border border-[#8E44AD]/30 text-[#ECF0F1] text-lg font-semibold rounded-full hover:bg-[#2C3E50] transition-all duration-300 shadow-xl"
+            >
+              Explore Quizzes
+            </motion.button>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Featured Quizzes */}
+      <section className="py-20 px-4 relative z-10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-heading font-bold mb-6 galaxy-text-gradient">
+              Featured Quizzes
+            </h2>
+            <p className="text-xl text-[#ECF0F1]/80 max-w-3xl mx-auto font-body">
+              Explore your spiritual path with our most popular and
+              transformative quizzes
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {featuredQuizzes.map((quiz, index) => (
+              <motion.div key={quiz.id} variants={itemVariants}>
+                <QuizCard quiz={quiz} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-20 px-4 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-[#8E44AD] via-[#2C3E50] to-[#8E44AD]" />
+        <div className="absolute inset-0 bg-black/20" />
+
+        <div className="relative max-w-5xl mx-auto text-center z-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-heading font-bold mb-8 text-[#ECF0F1] drop-shadow-lg"
+          >
+            Ready for Deeper Insights?
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-xl mb-10 text-[#ECF0F1]/90 max-w-3xl mx-auto font-body"
+          >
+            Want more quizzes or looking for a psychic reading or tarot advice
+            for your relationship?
+          </motion.p>
+          <motion.button
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
+            }}
+            whileTap={{ scale: 0.95 }}
+            className="px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full transition-all duration-300 shadow-2xl"
+          >
+            Get Personal Reading
+          </motion.button>
+        </div>
+      </motion.section>
+
+      {/* Blog Section */}
+      <section className="py-20 px-4 bg-[#2C3E50]/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-heading font-bold mb-6 galaxy-text-gradient">
+              Mystical Insights
+            </h2>
+            <p className="text-xl text-[#ECF0F1]/80 max-w-3xl mx-auto font-body">
+              Deepen your understanding with our latest spiritual articles and
+              cosmic wisdom
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {blogPosts.map((post, index) => (
+              <motion.div key={post.id} variants={itemVariants}>
+                <BlogCard post={post} />
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Link
+              href="/blog"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#8E44AD] to-[#E67E22] hover:from-[#7D3C98] hover:to-[#D35400] text-white font-semibold rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+            >
+              View All Articles
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  )
+}

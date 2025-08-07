@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    
+    /* Dark Galaxy Vibe Colors */
+    --galaxy-primary: 210 29% 24%;     /* #2C3E50 Deep Blue */
+    --galaxy-secondary: 283 39% 53%;   /* #8E44AD Violet */
+    --galaxy-accent: 192 15% 94%;      /* #ECF0F1 Light Silver */
+    --galaxy-highlight: 22 82% 52%;    /* #E67E22 Vibrant Orange */
+    --galaxy-background: 0 0% 11%;     /* #1B1B1B Almost Black */
+    --galaxy-cta: 4 90% 58%;           /* #E74C3C Red Mystic */
+  }
+
+  .dark {
+    --background: var(--galaxy-background);
+    --foreground: var(--galaxy-accent);
+    --card: var(--galaxy-primary);
+    --card-foreground: var(--galaxy-accent);
+    --popover: var(--galaxy-primary);
+    --popover-foreground: var(--galaxy-accent);
+    --primary: var(--galaxy-accent);
+    --primary-foreground: var(--galaxy-primary);
+    --secondary: var(--galaxy-secondary);
+    --secondary-foreground: var(--galaxy-accent);
+    --muted: var(--galaxy-primary);
+    --muted-foreground: var(--galaxy-accent);
+    --accent: var(--galaxy-secondary);
+    --accent-foreground: var(--galaxy-accent);
+    --destructive: var(--galaxy-cta);
+    --destructive-foreground: var(--galaxy-accent);
+    --border: var(--galaxy-primary);
+    --input: var(--galaxy-primary);
+    --ring: var(--galaxy-secondary);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom scrollbar with galaxy colors */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--galaxy-background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, hsl(var(--galaxy-secondary)), hsl(var(--galaxy-highlight)));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, hsl(var(--galaxy-highlight)), hsl(var(--galaxy-cta)));
+}
+
+/* Optimized animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(8px) rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px hsla(var(--galaxy-secondary), 0.4); }
+  50% { box-shadow: 0 0 25px hsla(var(--galaxy-secondary), 0.8); }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.float-reverse {
+  animation: floatReverse 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Galaxy gradient classes */
+.galaxy-gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--galaxy-primary)), hsl(var(--galaxy-secondary)));
+}
+
+.galaxy-gradient-secondary {
+  background: linear-gradient(135deg, hsl(var(--galaxy-secondary)), hsl(var(--galaxy-highlight)));
+}
+
+.galaxy-gradient-accent {
+  background: linear-gradient(135deg, hsl(var(--galaxy-highlight)), hsl(var(--galaxy-cta)));
+}
+
+.galaxy-text-gradient {
+  background: linear-gradient(135deg, hsl(var(--galaxy-secondary)), hsl(var(--galaxy-highlight)), hsl(var(--galaxy-cta)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass morphism with galaxy colors */
+.galaxy-glass {
+  background: hsla(var(--galaxy-primary), 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid hsla(var(--galaxy-secondary), 0.2);
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
