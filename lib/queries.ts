@@ -39,3 +39,16 @@ export const QUIZ_CATEGORY_BY_SLUG_QUERY = `*[_type == "quizCategory" && slug.cu
   slug,
   contentDescription // Only fetching contentDescription now
 }`
+export const LATEST_BLOG_POSTS_QUERY = `
+  *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    "featuredImageUrl": featuredImage.asset->url,
+    publishedAt,
+    category,
+    author,
+    readTime
+  }
+`

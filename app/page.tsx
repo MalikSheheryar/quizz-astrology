@@ -6,7 +6,10 @@ import { Star, Heart, Zap, Moon, Sun, Sparkles, ArrowRight } from 'lucide-react'
 import QuizCard from '@/components/quiz-card'
 import BlogCard from '@/components/blog-card'
 import { FloatingElements } from '@/components/floating-elements'
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import { client } from '@/lib/client'
+import { LATEST_BLOG_POSTS_QUERY } from '@/lib/queries'
+import { BlogPost } from '@/types/blog'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +33,23 @@ export default function HomePage() {
     offset: ['start start', 'end start'],
   })
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%'])
+
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [loadingBlogPosts, setLoadingBlogPosts] = useState(true)
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const posts = await client.fetch(LATEST_BLOG_POSTS_QUERY)
+        setBlogPosts(posts)
+      } catch (error) {
+        console.error('Error fetching latest blog posts:', error)
+      } finally {
+        setLoadingBlogPosts(false)
+      }
+    }
+    fetchBlogPosts()
+  }, [])
 
   const featuredQuizzes = [
     {
@@ -71,37 +91,9 @@ export default function HomePage() {
     },
   ]
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Mercury Retrograde: What It Really Means',
-      excerpt:
-        'Understanding the cosmic influence on communication and technology during this mystical period...',
-      date: '2024-01-15',
-      category: 'Astrology',
-    },
-    {
-      id: 2,
-      title: 'Finding Love Through Numerology',
-      excerpt:
-        'How your birth numbers can guide you to your soulmate and create lasting connections...',
-      date: '2024-01-12',
-      category: 'Love & Numerology',
-    },
-    {
-      id: 3,
-      title: 'Tarot Cards for Beginners: A Complete Guide',
-      excerpt:
-        'Start your tarot journey with these essential tips and mystical card meanings...',
-      date: '2024-01-10',
-      category: 'Tarot',
-    },
-  ]
-
   return (
     <div className="min-h-screen">
       <FloatingElements />
-
       {/* Hero Section */}
       <motion.section
         ref={heroRef}
@@ -115,10 +107,8 @@ export default function HomePage() {
           className="absolute inset-0 bg-gradient-to-br from-[#2C3E50] via-[#8E44AD] to-[#1B1B1B]"
           style={{ y }}
         />
-
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/30" />
-
         {/* Optimized Stars */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(50)].map((_, i) => (
@@ -143,7 +133,6 @@ export default function HomePage() {
             />
           ))}
         </div>
-
         <div className="relative max-w-6xl mx-auto z-10">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -160,7 +149,6 @@ export default function HomePage() {
               />
             </div>
           </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -171,7 +159,6 @@ export default function HomePage() {
             <br />
             <span className="galaxy-text-gradient">Cosmic Truth</span>
           </motion.h1>
-
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -181,7 +168,6 @@ export default function HomePage() {
             Unlock the mysteries of astrology, numerology, love, and tarot
             through personalized quizzes and spiritual guidance
           </motion.p>
-
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -201,7 +187,6 @@ export default function HomePage() {
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </motion.button>
-
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -212,7 +197,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </motion.section>
-
       {/* Featured Quizzes */}
       <section className="py-20 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
@@ -231,7 +215,6 @@ export default function HomePage() {
               transformative quizzes
             </p>
           </motion.div>
-
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
@@ -247,7 +230,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-
       {/* Call to Action */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -258,7 +240,6 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#8E44AD] via-[#2C3E50] to-[#8E44AD]" />
         <div className="absolute inset-0 bg-black/20" />
-
         <div className="relative max-w-5xl mx-auto text-center z-10">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -292,7 +273,6 @@ export default function HomePage() {
           </motion.button>
         </div>
       </motion.section>
-
       {/* Blog Section */}
       <section className="py-20 px-4 bg-[#2C3E50]/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
@@ -311,21 +291,45 @@ export default function HomePage() {
               cosmic wisdom
             </p>
           </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {blogPosts.map((post, index) => (
-              <motion.div key={post.id} variants={itemVariants}>
-                <BlogCard post={post} />
-              </motion.div>
-            ))}
-          </motion.div>
-
+          {loadingBlogPosts ? (
+            <div className="text-center py-16">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
+              />
+              <p className="text-xl text-gray-600 dark:text-gray-300">
+                Loading latest insights...
+              </p>
+            </div>
+          ) : blogPosts.length > 0 ? (
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {blogPosts.map((post, index) => (
+                <motion.div key={post._id} variants={itemVariants}>
+                  <BlogCard post={post} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16"
+            >
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">
+                No blog posts found.
+              </p>
+              <p className="text-gray-500 dark:text-gray-400">
+                Check back soon for new mystical insights!
+              </p>
+            </motion.div>
+          )}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
