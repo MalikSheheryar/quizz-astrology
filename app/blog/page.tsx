@@ -1,11 +1,13 @@
-"use client"
-
-import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { BookOpen, Calendar, User, ArrowRight } from 'lucide-react';
-import BlogCard from '@/components/blog-card';
-import { FloatingElements } from '@/components/floating-elements';
+'use client'
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { BookOpen, Calendar, User, ArrowRight } from 'lucide-react'
+import BlogCard from '@/components/blog-card'
+import { FloatingElements } from '@/components/floating-elements'
+import { client } from '@/lib/client'
+import { BLOG_POSTS_QUERY } from '@/lib/queries'
+import { BlogPost } from '@/types/blog'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -15,85 +17,73 @@ const containerVariants = {
       staggerChildren: 0.1,
     },
   },
-};
+}
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+}
 
 export default function BlogPage() {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Mercury Retrograde: What It Really Means",
-      excerpt: "Understanding the cosmic influence on communication and technology during Mercury's backward dance through the zodiac...",
-      date: "2024-01-15",
-      category: "Astrology",
-      author: "Luna Starweaver",
-      readTime: "5 min read"
-    },
-    {
-      id: 2,
-      title: "Finding Love Through Numerology",
-      excerpt: "How your birth numbers can guide you to your soulmate and create lasting romantic connections through ancient wisdom...",
-      date: "2024-01-12",
-      category: "Love & Numerology",
-      author: "Marcus Numeris",
-      readTime: "7 min read"
-    },
-    {
-      id: 3,
-      title: "Tarot Cards for Beginners: A Complete Guide",
-      excerpt: "Start your tarot journey with these essential tips, card meanings, and simple spreads for daily guidance...",
-      date: "2024-01-10",
-      category: "Tarot",
-      author: "Mystic Rose",
-      readTime: "10 min read"
-    },
-    {
-      id: 4,
-      title: "The Power of Full Moon Rituals",
-      excerpt: "Harness lunar energy for manifestation, release, and spiritual growth with these powerful full moon practices...",
-      date: "2024-01-08",
-      category: "Spiritual Practice",
-      author: "Luna Starweaver",
-      readTime: "6 min read"
-    },
-    {
-      id: 5,
-      title: "Understanding Your Life Path Number",
-      excerpt: "Discover how your life path number reveals your soul's purpose and the lessons you're here to learn...",
-      date: "2024-01-05",
-      category: "Numerology",
-      author: "Marcus Numeris",
-      readTime: "8 min read"
-    },
-    {
-      id: 6,
-      title: "Zodiac Compatibility: Beyond Sun Signs",
-      excerpt: "Explore deeper astrological compatibility by examining moon signs, Venus placements, and composite charts...",
-      date: "2024-01-03",
-      category: "Astrology & Love",
-      author: "Celestial Hearts",
-      readTime: "9 min read"
-    }
-  ];
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState('All')
 
   const categories = [
-    "All", "Astrology", "Numerology", "Tarot", "Love & Relationships", "Spiritual Practice"
-  ];
+    'All',
+    'Astrology',
+    'Numerology',
+    'Tarot',
+    'Love & Relationships',
+    'Spiritual Practice',
+  ]
 
-  const [selectedCategory, setSelectedCategory] = React.useState("All");
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const posts = await client.fetch(BLOG_POSTS_QUERY)
+        setBlogPosts(posts)
+      } catch (error) {
+        console.error('Error fetching blog posts:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  const filteredPosts = selectedCategory === "All" 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category.includes(selectedCategory.replace(" & Relationships", "")));
+    fetchBlogPosts()
+  }, [])
+
+  const filteredPosts =
+    selectedCategory === 'All'
+      ? blogPosts
+      : blogPosts.filter((post) =>
+          post.category.includes(
+            selectedCategory.replace(' & Relationships', '')
+          )
+        )
+
+  if (loading) {
+    return (
+      <div className="min-h-screen relative flex items-center justify-center">
+        <FloatingElements />
+        <div className="text-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+            className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
+          />
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Loading mystical insights...
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen relative">
       <FloatingElements />
-      
+
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         {/* Header */}
         <motion.div
@@ -105,7 +95,7 @@ export default function BlogPage() {
           <div className="relative overflow-hidden rounded-3xl mb-12">
             <div className="bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 dark:from-purple-800 dark:via-indigo-800 dark:to-blue-800 p-16 text-center shadow-2xl">
               <div className="absolute inset-0 bg-black/20 dark:bg-black/40" />
-              
+
               {/* Floating background elements */}
               <div className="absolute inset-0 overflow-hidden">
                 {[...Array(25)].map((_, i) => (
@@ -130,12 +120,12 @@ export default function BlogPage() {
                   />
                 ))}
               </div>
-              
+
               <div className="relative z-10">
                 <motion.div
                   initial={{ scale: 0, rotate: -90 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                  transition={{ delay: 0.2, duration: 0.6, type: 'spring' }}
                   className="mb-8"
                 >
                   <div className="relative inline-block">
@@ -147,8 +137,8 @@ export default function BlogPage() {
                     />
                   </div>
                 </motion.div>
-                
-                <motion.h1 
+
+                <motion.h1
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
@@ -157,14 +147,15 @@ export default function BlogPage() {
                 >
                   Mystical Insights
                 </motion.h1>
-                
-                <motion.p 
+
+                <motion.p
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.8 }}
                   className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-lg"
                 >
-                  Deepen your understanding of the mystical arts with our expert guidance and ancient wisdom
+                  Deepen your understanding of the mystical arts with our expert
+                  guidance and ancient wisdom
                 </motion.p>
               </div>
             </div>
@@ -198,23 +189,38 @@ export default function BlogPage() {
         </motion.div>
 
         {/* Blog Posts Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {filteredPosts.map((post, index) => (
-            <motion.div
-              key={post.id}
-              variants={itemVariants}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <BlogCard post={post} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {filteredPosts.length > 0 ? (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {filteredPosts.map((post, index) => (
+              <motion.div
+                key={post._id}
+                variants={itemVariants}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <BlogCard post={post} />
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-16"
+          >
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-4">
+              No blog posts found in this category.
+            </p>
+            <p className="text-gray-500 dark:text-gray-400">
+              Check back soon for new mystical insights!
+            </p>
+          </motion.div>
+        )}
 
         {/* Newsletter Signup */}
         <motion.div
@@ -226,7 +232,7 @@ export default function BlogPage() {
         >
           <div className="bg-gradient-to-br from-purple-600 via-pink-500 to-indigo-600 dark:from-purple-800 dark:via-pink-700 dark:to-indigo-800 p-16 text-center shadow-2xl">
             <div className="absolute inset-0 bg-black/20 dark:bg-black/40" />
-            
+
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden">
               {[...Array(20)].map((_, i) => (
@@ -251,23 +257,33 @@ export default function BlogPage() {
                 />
               ))}
             </div>
-            
+
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-2xl" style={{ fontFamily: 'Playfair Display, serif' }}>
+              <h2
+                className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-2xl"
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
                 Stay Connected to the Cosmos
               </h2>
               <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
-                Get weekly insights, cosmic updates, and exclusive spiritual guidance delivered to your inbox
+                Get weekly insights, cosmic updates, and exclusive spiritual
+                guidance delivered to your inbox
               </p>
               <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
                 <motion.input
                   type="email"
                   placeholder="Enter your email"
-                  whileFocus={{ scale: 1.02, boxShadow: "0 0 0 4px rgba(255,255,255,0.3)" }}
+                  whileFocus={{
+                    scale: 1.02,
+                    boxShadow: '0 0 0 4px rgba(255,255,255,0.3)',
+                  }}
                   className="flex-1 px-6 py-4 rounded-full text-gray-800 bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/50 shadow-lg"
                 />
                 <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                  }}
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 bg-white text-purple-600 hover:bg-gray-100 font-semibold rounded-full transition-all duration-300 shadow-xl"
                 >
@@ -279,5 +295,5 @@ export default function BlogPage() {
         </motion.div>
       </div>
     </div>
-  );
-};
+  )
+}
