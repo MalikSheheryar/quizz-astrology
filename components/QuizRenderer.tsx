@@ -24,6 +24,12 @@ const quizComponents: {
   ZodiacCompatibilityQuiz: lazy(
     () => import('./quizzes/ZodiacCompatibilityQuiz')
   ),
+  IntuitionScoreQuiz: lazy(() => import('./quizzes/IntuitionScoreQuiz')),
+  ChakraBlockedQuiz: lazy(() => import('./quizzes/ChakraBlockedQuiz')),
+  TwinFlameKarmicQuiz: lazy(() => import('./quizzes/TwinFlameKarmicQuiz')),
+  ZodiacSoulmateQuiz: lazy(() => import('./quizzes/ZodiacSoulmateQuiz')),
+  LoveCompatibilityQuiz: lazy(() => import('./quizzes/LoveCompatibilityQuiz')),
+  LoveProphecyQuiz: lazy(() => import('./quizzes/LoveProphecyQuiz')),
   // Add more quiz components here as you create them
 }
 

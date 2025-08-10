@@ -153,6 +153,156 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       images: ['/placeholder.svg?height=675&width=1200'],
     },
   },
+  'intuition-score-quiz': {
+    title:
+      'Intuition Score Quiz – Discover Your Psychic Abilities | QuizzAstrology',
+    description:
+      'Discover your mystical connection to inner wisdom and unlock your intuitive abilities. Take our Intuition Score quiz and connect with your spirit guide.',
+    keywords: [
+      'intuition quiz',
+      'psychic abilities',
+      'spiritual guidance',
+      'inner wisdom',
+      'mystical connection',
+      'QuizzAstrology',
+    ],
+    openGraph: {
+      title: 'Intuition Score Quiz - QuizzAstrology',
+      description:
+        'Discover your mystical connection to inner wisdom and unlock your intuitive abilities.',
+      url: 'https://quizzastrology.com/category/spiritual/quiz/intuition-score-quiz',
+      siteName: 'QuizzAstrology',
+      images: [
+        {
+          url: '/placeholder.svg?height=630&width=1200',
+          width: 1200,
+          height: 630,
+          alt: 'Intuition Score Quiz',
+        },
+      ],
+      locale: 'en_US',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Intuition Score Quiz - QuizzAstrology',
+      description:
+        'Discover your mystical connection to inner wisdom and unlock your intuitive abilities.',
+      images: ['/placeholder.svg?height=675&width=1200'],
+    },
+  },
+  'chakra-blocked-quiz': {
+    title: 'Chakra Blocked Quiz – Which Chakra Needs Healing | QuizzAstrology',
+    description:
+      'Discover which chakra is blocked in you right now through deep somatic insights. Get personalized healing practices and energy alignment guidance.',
+    keywords: [
+      'chakra quiz',
+      'blocked chakra',
+      'energy healing',
+      'spiritual healing',
+      'chakra alignment',
+      'QuizzAstrology',
+    ],
+    openGraph: {
+      title: 'Chakra Blocked Quiz - QuizzAstrology',
+      description:
+        'Discover which chakra is blocked and get personalized healing practices.',
+      url: 'https://quizzastrology.com/category/spiritual/quiz/chakra-blocked-quiz',
+      siteName: 'QuizzAstrology',
+      images: [
+        {
+          url: '/placeholder.svg?height=630&width=1200',
+          width: 1200,
+          height: 630,
+          alt: 'Chakra Blocked Quiz',
+        },
+      ],
+      locale: 'en_US',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Chakra Blocked Quiz - QuizzAstrology',
+      description:
+        'Discover which chakra is blocked and get personalized healing practices.',
+      images: ['/placeholder.svg?height=675&width=1200'],
+    },
+  },
+  'twin-flame-karmic-quiz': {
+    title:
+      'Twin Flame vs Karmic Quiz – Discover Your Soul Connection | QuizzAstrology',
+    description:
+      'Is your partner your Twin Flame or a Karmic Lesson? Discover the spiritual truth about your relationship and uncover your cosmic love purpose.',
+    keywords: [
+      'twin flame quiz',
+      'karmic relationship',
+      'soulmate connection',
+      'spiritual love',
+      'relationship purpose',
+      'QuizzAstrology',
+    ],
+    openGraph: {
+      title: 'Twin Flame vs Karmic Quiz - QuizzAstrology',
+      description:
+        'Discover if your partner is your Twin Flame or a Karmic Lesson.',
+      url: 'https://quizzastrology.com/category/love/quiz/twin-flame-karmic-quiz',
+      siteName: 'QuizzAstrology',
+      images: [
+        {
+          url: '/placeholder.svg?height=630&width=1200',
+          width: 1200,
+          height: 630,
+          alt: 'Twin Flame vs Karmic Quiz',
+        },
+      ],
+      locale: 'en_US',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Twin Flame vs Karmic Quiz - QuizzAstrology',
+      description:
+        'Discover if your partner is your Twin Flame or a Karmic Lesson.',
+      images: ['/placeholder.svg?height=675&width=1200'],
+    },
+  },
+  'zodiac-soulmate-quiz': {
+    title: 'Zodiac Soulmate Quiz – Find Your Perfect Match | QuizzAstrology',
+    description:
+      'Which zodiac sign is your ideal soulmate? Discover your perfect cosmic match through personality analysis and astrological compatibility.',
+    keywords: [
+      'zodiac soulmate',
+      'astrology compatibility',
+      'perfect match',
+      'love astrology',
+      'cosmic connection',
+      'QuizzAstrology',
+    ],
+    openGraph: {
+      title: 'Zodiac Soulmate Quiz - QuizzAstrology',
+      description:
+        'Discover which zodiac sign is your ideal soulmate and perfect match.',
+      url: 'https://quizzastrology.com/category/love/quiz/zodiac-soulmate-quiz',
+      siteName: 'QuizzAstrology',
+      images: [
+        {
+          url: '/placeholder.svg?height=630&width=1200',
+          width: 1200,
+          height: 630,
+          alt: 'Zodiac Soulmate Quiz',
+        },
+      ],
+      locale: 'en_US',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Zodiac Soulmate Quiz - QuizzAstrology',
+      description:
+        'Discover which zodiac sign is your ideal soulmate and perfect match.',
+      images: ['/placeholder.svg?height=675&width=1200'],
+    },
+  },
 }
 
 // Generate static paths for all quizzes
