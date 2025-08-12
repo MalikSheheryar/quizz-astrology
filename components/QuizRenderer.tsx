@@ -30,6 +30,10 @@ const quizComponents: {
   ZodiacSoulmateQuiz: lazy(() => import('./quizzes/ZodiacSoulmateQuiz')),
   LoveCompatibilityQuiz: lazy(() => import('./quizzes/LoveCompatibilityQuiz')),
   LoveProphecyQuiz: lazy(() => import('./quizzes/LoveProphecyQuiz')),
+  SoulNumberQuiz: lazy(() => import('./quizzes/SoulNumberQuiz')),
+  LuckiestYearQuiz: lazy(() => import('./quizzes/LuckiestYearQuiz')),
+  SoulMissionQuiz: lazy(() => import('./quizzes/SoulMissionQuiz')),
+  FinancialDestinyQuiz: lazy(() => import('./quizzes/FinancialDestinyQuiz')),
   // Add more quiz components here as you create them
 }
 

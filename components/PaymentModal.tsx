@@ -44,7 +44,7 @@ const PaymentForm: React.FC<Omit<PaymentModalProps, 'isOpen'>> = ({
     quizSlug: string,
     userData: any
   ) => {
-    const response = await fetch('/api/payment/create-intent', {
+    const response = await fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

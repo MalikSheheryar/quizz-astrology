@@ -19,7 +19,7 @@ export const createPaymentIntent = async (
   quizSlug: string,
   userData: any
 ) => {
-  const response = await fetch('/api/payment/create-intent', {
+  const response = await fetch('/api/create-payment-intent', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const createPaymentIntent = async (
 
 // Helper function to verify payment
 export const verifyPayment = async (paymentIntentId: string) => {
-  const response = await fetch('/api/payment/verify', {
+  const response = await fetch('/api/verify-payment', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
