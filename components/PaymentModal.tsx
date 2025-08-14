@@ -9,7 +9,14 @@ import {
   useElements,
 } from '@stripe/react-stripe-js'
 import { stripePromise } from '@/lib/stripe'
-import { X, CreditCard, Lock, Download, AlertCircle } from 'lucide-react'
+import {
+  X,
+  CreditCard,
+  Lock,
+  Download,
+  AlertCircle,
+  Shield,
+} from 'lucide-react'
 import { generateQuizResultPDF } from '@/lib/pdf-generator'
 
 interface PaymentModalProps {
@@ -153,22 +160,24 @@ const PaymentForm: React.FC<Omit<PaymentModalProps, 'isOpen'>> = ({
       base: {
         fontSize: '16px',
         color: '#ffffff',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
         fontSmoothing: 'antialiased',
+        lineHeight: '20px',
         '::placeholder': {
-          color: '#87CEEB',
+          color: '#9CA3AF',
         },
         ':-webkit-autofill': {
           color: '#ffffff',
         },
       },
       invalid: {
-        color: '#ff6b6b',
-        iconColor: '#ff6b6b',
+        color: '#EF4444',
+        iconColor: '#EF4444',
       },
       complete: {
-        color: '#4ade80',
-        iconColor: '#4ade80',
+        color: '#10B981',
+        iconColor: '#10B981',
       },
     },
     hidePostalCode: false,
@@ -177,71 +186,72 @@ const PaymentForm: React.FC<Omit<PaymentModalProps, 'isOpen'>> = ({
   const isProduction = process.env.NODE_ENV === 'production'
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-white/10 rounded-xl p-4 border border-white/20">
-        <label className="block text-white text-sm font-medium mb-2">
-          Card Information
+    <div className="space-y-4 sm:space-y-6">
+      {/* Card Input Section */}
+      <div className="space-y-3">
+        <label className="block text-white text-sm font-medium">
+          <CreditCard className="inline w-4 h-4 mr-2" />
+          Payment Information
         </label>
-        <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/20 hover:border-white/30 transition-all duration-200">
           <CardElement options={cardElementOptions} />
         </div>
-
-        {/* Show test card info only in development */}
-        {!isProduction && (
-          <div className="mt-2 text-xs text-white/60 bg-blue-500/10 p-2 rounded border border-blue-500/20">
-            <p>
-              <strong>Test Mode:</strong> Use 4242 4242 4242 4242 with any
-              future date
-            </p>
-          </div>
-        )}
       </div>
 
+      {/* Error Display */}
       {error && (
-        <div className="text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20 flex items-start space-x-2">
-          <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-          <span>{error}</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-red-500/10 backdrop-blur-sm border border-red-400/30 rounded-xl p-3 sm:p-4"
+        >
+          <div className="flex items-start space-x-3">
+            <AlertCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-red-300 text-sm font-medium">Payment Error</p>
+              <p className="text-red-200 text-sm mt-1">{error}</p>
+            </div>
+          </div>
+        </motion.div>
       )}
 
-      <div className="flex space-x-4">
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
         <button
           type="button"
           onClick={onClose}
           disabled={loading}
-          className="flex-1 py-3 px-6 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors border border-white/20 disabled:opacity-50"
+          className="flex-1 py-3 px-6 bg-white/10 hover:bg-white/15 text-white rounded-xl transition-all duration-200 border border-white/20 hover:border-white/30 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="flex-1 py-3 px-6 bg-gradient-to-r from-[#FF6B6B] to-[#FFA726] text-white rounded-xl hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          onClick={handleSubmit}
+          className="flex-1 py-3 px-6 bg-gradient-to-r from-[#FF6B6B] to-[#FFA726] hover:from-[#FF5252] hover:to-[#FF9800] text-white rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl font-medium"
         >
-          {loading ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          ) : (
-            <>
-              <Lock className="w-4 h-4" />
-              <span>Pay ${price.toFixed(2)}</span>
-            </>
-          )}
+          <div className="flex items-center justify-center space-x-2">
+            {loading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>Processing...</span>
+              </>
+            ) : (
+              <>
+                <Lock className="w-4 h-4" />
+                <span>Pay ${price.toFixed(2)}</span>
+              </>
+            )}
+          </div>
         </button>
       </div>
-
-      {/* Environment indicator - only show in development */}
-      {!isProduction && (
-        <div className="text-xs text-white/40 text-center">
-          <p>🧪 Test Mode - No real charges will be made</p>
-        </div>
-      )}
-    </form>
+    </div>
   )
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = (props) => {
   const { isOpen, onClose, price, quizTitle } = props
-  const isProduction = process.env.NODE_ENV === 'production'
 
   return (
     <AnimatePresence>
@@ -250,59 +260,66 @@ const PaymentModal: React.FC<PaymentModalProps> = (props) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-[#1F2A38] rounded-3xl p-8 max-w-md w-full border border-white/10 shadow-2xl"
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', duration: 0.5, bounce: 0.1 }}
+            className="bg-gradient-to-br from-[#1F2937] to-[#111827] rounded-2xl sm:rounded-3xl w-full max-w-md sm:max-w-lg border border-white/20 shadow-2xl overflow-hidden max-h-[95vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-2xl font-bold text-white">
-                  Unlock Full Results
-                </h3>
-                {!isProduction && (
-                  <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded mt-1 inline-block">
-                    TEST MODE
-                  </span>
-                )}
-              </div>
-              <button
-                onClick={onClose}
-                className="text-white/60 hover:text-white transition-colors p-1 hover:bg-white/10 rounded"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="mb-6">
-              <div className="space-y-3 mb-4">
-                <div className="flex items-center space-x-3">
-                  <Lock className="w-5 h-5 text-[#4ade80]" />
-                  <span className="text-white">256-bit SSL Encrypted</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Download className="w-5 h-5 text-[#4ade80]" />
-                  <span className="text-white">Instant PDF Download</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CreditCard className="w-5 h-5 text-[#4ade80]" />
-                  <span className="text-white">Secure Payment via Stripe</span>
+            {/* Header */}
+            <div className="relative bg-gradient-to-r from-[#FF6B6B]/10 to-[#FFA726]/10 border-b border-white/10">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 pr-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">
+                        Unlock Full Results
+                      </h3>
+                    </div>
+                    <p className="text-white/70 text-sm leading-relaxed">
+                      Get your complete{' '}
+                      <span className="font-medium text-white">
+                        {quizTitle.toLowerCase()}
+                      </span>{' '}
+                      analysis with professional insights
+                    </p>
+                  </div>
+                  <button
+                    onClick={onClose}
+                    className="text-white/60 hover:text-white transition-all duration-200 p-2 hover:bg-white/10 rounded-xl flex-shrink-0"
+                  >
+                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
                 </div>
               </div>
-              <p className="text-white/70 text-sm">
-                Get your complete {quizTitle.toLowerCase()} analysis with
-                detailed insights and download a beautiful PDF report.
-              </p>
             </div>
 
-            <Elements stripe={stripePromise}>
-              <PaymentForm {...props} />
-            </Elements>
+            {/* Payment Form */}
+            <div className="p-4 sm:p-6">
+              <Elements stripe={stripePromise}>
+                <PaymentForm {...props} />
+              </Elements>
+            </div>
+
+            {/* Footer */}
+            <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+              <div className="flex items-center justify-center space-x-4 text-xs text-white/40">
+                <div className="flex items-center space-x-1">
+                  <Lock className="w-3 h-3" />
+                  <span>Powered by Stripe</span>
+                </div>
+                <div className="w-1 h-1 bg-white/40 rounded-full"></div>
+                <div className="flex items-center space-x-1">
+                  <Shield className="w-3 h-3" />
+                  <span>PCI Compliant</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       )}

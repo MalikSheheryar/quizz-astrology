@@ -1,19 +1,14 @@
-"use client"
-import { useParams } from "next/navigation"
-import dynamic from "next/dynamic"
-import { Star, Heart, Hash, Moon, Sun, Sparkles } from "lucide-react"
-import QuizCard from "@/components/quiz-card"
-import { FloatingElements } from "@/components/floating-elements"
-import { client } from "@/lib/client"
-import { QUIZ_CATEGORY_BY_SLUG_QUERY } from "@/lib/queries"
-import type { QuizCategory } from "@/types/blog"
-import { useState, useEffect } from "react"
-import { getQuizzesByCategory } from "@/utils/localQuizData"
-
-// Dynamically import animated elements
-const MotionDiv = dynamic(() => import("@/components/animated-elements").then((mod) => mod.MotionDiv), { ssr: false })
-const MotionH1 = dynamic(() => import("@/components/animated-elements").then((mod) => mod.MotionH1), { ssr: false })
-const MotionP = dynamic(() => import("@/components/animated-elements").then((mod) => mod.MotionP), { ssr: false })
+'use client'
+import { useParams } from 'next/navigation'
+import { Star, Heart, Hash, Moon, Sun, Sparkles } from 'lucide-react'
+import QuizCard from '@/components/quiz-card'
+import { FloatingElements } from '@/components/floating-elements'
+import { client } from '@/lib/client'
+import { QUIZ_CATEGORY_BY_SLUG_QUERY } from '@/lib/queries'
+import type { QuizCategory } from '@/types/blog'
+import { useState, useEffect } from 'react'
+import { getQuizzesByCategory } from '@/utils/localQuizData'
+import { MotionDiv, MotionH1, MotionP } from '@/components/animated-elements'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,7 +22,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 }
 
 export default function CategoryPage() {
@@ -42,61 +37,79 @@ export default function CategoryPage() {
   // Default category data for fallback
   const defaultCategoryData = {
     astrology: {
-      title: "Astrology Quizzes",
-      description: "Discover your cosmic personality and celestial influences through the ancient wisdom of the stars",
+      title: 'Astrology Quizzes',
+      description:
+        'Discover your cosmic personality and celestial influences through the ancient wisdom of the stars',
       icon: Star,
-      gradient: "from-purple-600 via-indigo-600 to-blue-600",
-      darkGradient: "dark:from-purple-800 dark:via-indigo-800 dark:to-blue-800",
+      gradient: 'from-purple-600 via-indigo-600 to-blue-600',
+      darkGradient: 'dark:from-purple-800 dark:via-indigo-800 dark:to-blue-800',
     },
     love: {
-      title: "Love & Emotions",
-      description: "Explore matters of the heart and discover your romantic destiny through cosmic guidance",
+      title: 'Love & Emotions',
+      description:
+        'Explore matters of the heart and discover your romantic destiny through cosmic guidance',
       icon: Heart,
-      gradient: "from-pink-500 via-rose-500 to-red-500",
-      darkGradient: "dark:from-pink-700 dark:via-rose-700 dark:to-red-700",
+      gradient: 'from-pink-500 via-rose-500 to-red-500',
+      darkGradient: 'dark:from-pink-700 dark:via-rose-700 dark:to-red-700',
     },
     numerology: {
-      title: "Numerology",
-      description: "Unlock the sacred power of numbers and discover your divine life path",
+      title: 'Numerology',
+      description:
+        'Unlock the sacred power of numbers and discover your divine life path',
       icon: Hash,
-      gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-      darkGradient: "dark:from-emerald-700 dark:via-teal-700 dark:to-cyan-700",
+      gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
+      darkGradient: 'dark:from-emerald-700 dark:via-teal-700 dark:to-cyan-700',
     },
     tarot: {
-      title: "Tarot Readings",
-      description: "Divine wisdom through ancient card symbolism and mystical insights",
+      title: 'Tarot Readings',
+      description:
+        'Divine wisdom through ancient card symbolism and mystical insights',
       icon: Moon,
-      gradient: "from-indigo-600 via-purple-600 to-violet-600",
-      darkGradient: "dark:from-indigo-800 dark:via-purple-800 dark:to-violet-800",
+      gradient: 'from-indigo-600 via-purple-600 to-violet-600',
+      darkGradient:
+        'dark:from-indigo-800 dark:via-purple-800 dark:to-violet-800',
     },
     spiritual: {
-      title: "Spiritual Guidance",
-      description: "Connect with your higher self and embark on a transformative spiritual journey",
+      title: 'Spiritual Guidance',
+      description:
+        'Connect with your higher self and embark on a transformative spiritual journey',
       icon: Sun,
-      gradient: "from-yellow-500 via-orange-500 to-red-500",
-      darkGradient: "dark:from-yellow-600 dark:via-orange-600 dark:to-red-600",
+      gradient: 'from-yellow-500 via-orange-500 to-red-500',
+      darkGradient: 'dark:from-yellow-600 dark:via-orange-600 dark:to-red-600',
     },
     compatibility: {
-      title: "Couple Compatibility",
-      description: "Test your romantic and spiritual connections through cosmic alignment",
+      title: 'Couple Compatibility',
+      description:
+        'Test your romantic and spiritual connections through cosmic alignment',
       icon: Sparkles,
-      gradient: "from-pink-500 via-purple-500 to-indigo-500",
-      darkGradient: "dark:from-pink-700 dark:via-purple-700 dark:to-indigo-700",
+      gradient: 'from-pink-500 via-purple-500 to-indigo-500',
+      darkGradient: 'dark:from-pink-700 dark:via-purple-700 dark:to-indigo-700',
     },
   }
 
   const currentDefault =
-    defaultCategoryData[categorySlug as keyof typeof defaultCategoryData] || defaultCategoryData.astrology
+    defaultCategoryData[categorySlug as keyof typeof defaultCategoryData] ||
+    defaultCategoryData.astrology
 
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
+        console.log('Fetching category data for slug:', categorySlug)
         const data = await client.fetch(QUIZ_CATEGORY_BY_SLUG_QUERY, {
           slug: categorySlug,
         })
+        console.log('Fetched category data:', data)
+        if (data) {
+          console.log('Content description:', data.contentDescription)
+          console.log(
+            'Content description length:',
+            data.contentDescription?.length
+          )
+        }
         setCategoryData(data)
       } catch (error) {
-        console.error("Error fetching category data:", error)
+        console.error('Error fetching category data:', error)
+        setCategoryData(null)
       } finally {
         setLoading(false)
       }
@@ -116,10 +129,16 @@ export default function CategoryPage() {
         <div className="text-center">
           <MotionDiv
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: 'linear',
+            }}
             className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
           />
-          <p className="text-xl text-gray-600 dark:text-gray-300">Loading category...</p>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Loading category...
+          </p>
         </div>
       </div>
     )
@@ -170,7 +189,7 @@ export default function CategoryPage() {
                 <MotionDiv
                   initial={{ scale: 0, rotate: -90 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                  transition={{ delay: 0.2, duration: 0.6, type: 'spring' }}
                   className="mb-8"
                 >
                   <div className="relative inline-block">
@@ -178,7 +197,10 @@ export default function CategoryPage() {
                     <MotionDiv
                       className="absolute -inset-4 bg-white/20 rounded-full blur-xl"
                       animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-                      transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+                      transition={{
+                        duration: 3,
+                        repeat: Number.POSITIVE_INFINITY,
+                      }}
                     />
                   </div>
                 </MotionDiv>
@@ -187,37 +209,36 @@ export default function CategoryPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.8 }}
                   className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-2xl"
-                  style={{ fontFamily: "Playfair Display, serif" }}
+                  style={{ fontFamily: 'Playfair Display, serif' }}
                 >
                   {currentDefault.title}
                 </MotionH1>
+                <MotionP
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                  className="text-xl text-white/90 drop-shadow-lg max-w-2xl mx-auto"
+                >
+                  {categoryData?.contentDescription ||
+                    currentDefault.description}
+                </MotionP>
               </div>
             </div>
           </MotionDiv>
 
-          {/* Category Content from Sanity */}
-          {categoryData?.contentDescription && (
-            <MotionDiv
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="mb-16 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-white/20 dark:border-gray-700/30"
-            >
-              <p className="prose prose-lg prose-purple dark:prose-invert max-w-none text-[#020817] leading-relaxed">
-                {categoryData.contentDescription}
-              </p>
-            </MotionDiv>
-          )}
-
           {/* Quizzes Section */}
-          <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
+          <MotionDiv
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
             <MotionH1
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-bold text-center mb-12 gradient-text"
-              style={{ fontFamily: "Playfair Display, serif" }}
+              style={{ fontFamily: 'Playfair Display, serif' }}
             >
               Available Quizzes
             </MotionH1>
@@ -230,7 +251,11 @@ export default function CategoryPage() {
               viewport={{ once: true, amount: 0.2 }}
             >
               {categoryQuizzes.map((quiz, index) => (
-                <MotionDiv key={quiz._id} variants={itemVariants} style={{ animationDelay: `${index * 0.1}s` }}>
+                <MotionDiv
+                  key={quiz._id}
+                  variants={itemVariants}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
                   <QuizCard
                     quiz={{
                       id: quiz._id,
@@ -266,7 +291,7 @@ export default function CategoryPage() {
                   transition={{
                     duration: 20,
                     repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
+                    ease: 'linear',
                   }}
                   className="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 rounded-full"
                 />
@@ -275,7 +300,7 @@ export default function CategoryPage() {
               <MotionDiv
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                transition={{ delay: 0.2, duration: 0.6, type: 'spring' }}
                 viewport={{ once: true }}
                 className="mb-8"
               >
@@ -284,21 +309,22 @@ export default function CategoryPage() {
 
               <MotionH1
                 className="text-3xl md:text-4xl font-bold mb-6 gradient-text"
-                style={{ fontFamily: "Playfair Display, serif" }}
+                style={{ fontFamily: 'Playfair Display, serif' }}
               >
                 More Quizzes Coming Soon!
               </MotionH1>
 
               <MotionP className="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                We're constantly adding new quizzes to help you explore your spiritual journey. Check back regularly for
-                fresh insights and cosmic discoveries.
+                We're constantly adding new quizzes to help you explore your
+                spiritual journey. Check back regularly for fresh insights and
+                cosmic discoveries.
               </MotionP>
 
               <MotionDiv
                 as="button"
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-10 py-4 bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 hover:from-purple-700 hover:via-pink-600 hover:to-indigo-700 text-white font-semibold rounded-full transition-all duration-300 shadow-xl"
@@ -307,6 +333,31 @@ export default function CategoryPage() {
               </MotionDiv>
             </div>
           </MotionDiv>
+
+          {/* Debug Info in Development */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-8 p-4 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg border border-yellow-300 dark:border-yellow-700">
+              <h3 className="font-bold text-yellow-800 dark:text-yellow-200 mb-2">
+                Debug Info:
+              </h3>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                Category Slug: {categorySlug}
+              </p>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                Category Data: {categoryData ? 'Found' : 'Not found'}
+              </p>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                Content Description:{' '}
+                {categoryData?.contentDescription ? 'Present' : 'Missing'}
+              </p>
+              {categoryData?.contentDescription && (
+                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-2">
+                  Content Preview: "
+                  {categoryData.contentDescription.substring(0, 100)}..."
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>

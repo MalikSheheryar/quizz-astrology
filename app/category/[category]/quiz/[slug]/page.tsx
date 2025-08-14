@@ -2,12 +2,13 @@ import { getQuizBySlug, localQuizzes } from '@/utils/localQuizData'
 import type { Metadata } from 'next'
 import QuizRenderer from '@/components/QuizRenderer'
 
-// Define hardcoded metadata for each quiz slug
-const hardcodedQuizMetadata: { [key: string]: Metadata } = {
+const quizSeoData: {
+  [key: string]: { title: string; description: string; keywords: string[] }
+} = {
   'elemental-dominance-quiz': {
-    title: 'Elemental Dominance Quiz – Discover Your Element | QuizzAstrology',
+    title: 'Elemental Dominance Quiz – Discover Your Astrological Element',
     description:
-      'Discover which element dominates your astrological chart. Take our free Elemental Dominance quiz and uncover your fire, water, earth, or air nature.',
+      'Find out which element rules your zodiac chart and shapes your personality, decisions, and life path in this fun and insightful astrology quiz.',
     keywords: [
       'elemental dominance',
       'astrology elements',
@@ -16,36 +17,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'astrological elements',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Elemental Dominance Quiz - QuizzAstrology',
-      description:
-        'Discover which element dominates your astrological chart and personality.',
-      url: 'https://quizzastrology.com/category/astrology/quiz/elemental-dominance-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Elemental Dominance Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Elemental Dominance Quiz - QuizzAstrology',
-      description:
-        'Discover which element dominates your astrological chart and personality.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'planetary-influence-quiz': {
-    title:
-      'Planetary Influence Quiz – Which Planet Rules You? | QuizzAstrology',
+    title: 'Planetary Influence Quiz – Which Planet Guides You?',
     description:
-      'Discover which planet has the strongest influence on your decisions and personality. Take our Planetary Influence quiz and unlock your cosmic guidance.',
+      'Discover the planet with the strongest influence on your decisions, emotions, and destiny. Unlock deep insights into your astrological personality.',
     keywords: [
       'planetary influence',
       'astrology planets',
@@ -54,35 +30,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'planetary personality',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Planetary Influence Quiz - QuizzAstrology',
-      description:
-        'Discover which planet influences your decisions and personality most.',
-      url: 'https://quizzastrology.com/category/astrology/quiz/planetary-influence-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Planetary Influence Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Planetary Influence Quiz - QuizzAstrology',
-      description:
-        'Discover which planet influences your decisions and personality most.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'rising-sign-quiz': {
-    title: 'Rising Sign Quiz – Discover Your True Ascendant | QuizzAstrology',
+    title: 'Rising Sign Quiz – Reveal How Others See You',
     description:
-      'Discover your true rising sign through personality-based questions. Learn how others perceive you and unlock your cosmic first impressions.',
+      'Discover your true rising sign with personality-based questions that reveal first impressions and how others perceive your energy.',
     keywords: [
       'rising sign quiz',
       'ascendant sign',
@@ -91,35 +43,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'rising sign calculator',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Rising Sign Quiz - QuizzAstrology',
-      description:
-        'Discover your true rising sign and how others perceive you.',
-      url: 'https://quizzastrology.com/category/astrology/quiz/rising-sign-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Rising Sign Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Rising Sign Quiz - QuizzAstrology',
-      description:
-        'Discover your true rising sign and how others perceive you.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'zodiac-compatibility-quiz': {
-    title: 'Zodiac Compatibility Quiz – Which Sign to Avoid | QuizzAstrology',
+    title: 'Compatibility Quiz – Find Your Perfect Match',
     description:
-      'Find out which zodiac sign you should avoid in love and relationships. Take our compatibility quiz and discover your cosmic red flags.',
+      'Find out which zodiac signs are most and least compatible with you in love and friendship based on your personality and relationship style.',
     keywords: [
       'zodiac compatibility',
       'astrology compatibility',
@@ -128,36 +56,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'love compatibility',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Zodiac Compatibility Quiz - QuizzAstrology',
-      description:
-        'Discover which zodiac sign you should avoid in love and relationships.',
-      url: 'https://quizzastrology.com/category/astrology/quiz/zodiac-compatibility-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Zodiac Compatibility Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Zodiac Compatibility Quiz - QuizzAstrology',
-      description:
-        'Discover which zodiac sign you should avoid in love and relationships.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'intuition-score-quiz': {
-    title:
-      'Intuition Score Quiz – Discover Your Psychic Abilities | QuizzAstrology',
+    title: 'Intuition Score Quiz – Unlock Your Inner Wisdom',
     description:
-      'Discover your mystical connection to inner wisdom and unlock your intuitive abilities. Take our Intuition Score quiz and connect with your spirit guide.',
+      'Discover your mystical connection to intuition and gain personalized guidance to strengthen your spiritual awareness and decision-making abilities.',
     keywords: [
       'intuition quiz',
       'psychic abilities',
@@ -166,35 +69,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'mystical connection',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Intuition Score Quiz - QuizzAstrology',
-      description:
-        'Discover your mystical connection to inner wisdom and unlock your intuitive abilities.',
-      url: 'https://quizzastrology.com/category/spiritual/quiz/intuition-score-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Intuition Score Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Intuition Score Quiz - QuizzAstrology',
-      description:
-        'Discover your mystical connection to inner wisdom and unlock your intuitive abilities.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'chakra-blocked-quiz': {
-    title: 'Chakra Blocked Quiz – Which Chakra Needs Healing | QuizzAstrology',
+    title: 'Chakra Blocked Quiz – Identify & Heal Energy Blocks',
     description:
-      'Discover which chakra is blocked in you right now through deep somatic insights. Get personalized healing practices and energy alignment guidance.',
+      'Find out which chakra is blocked and learn how to restore balance through personalized healing practices and emotional insights.',
     keywords: [
       'chakra quiz',
       'blocked chakra',
@@ -203,36 +82,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'chakra alignment',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Chakra Blocked Quiz - QuizzAstrology',
-      description:
-        'Discover which chakra is blocked and get personalized healing practices.',
-      url: 'https://quizzastrology.com/category/spiritual/quiz/chakra-blocked-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Chakra Blocked Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Chakra Blocked Quiz - QuizzAstrology',
-      description:
-        'Discover which chakra is blocked and get personalized healing practices.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'twin-flame-karmic-quiz': {
-    title:
-      'Twin Flame vs Karmic Quiz – Discover Your Soul Connection | QuizzAstrology',
+    title: 'Twin Flame vs Karmic Quiz – Discover Your True Connection',
     description:
-      'Is your partner your Twin Flame or a Karmic Lesson? Discover the spiritual truth about your relationship and uncover your cosmic love purpose.',
+      'Find out if your partner is your Twin Flame or a Karmic lesson. Reveal the cosmic purpose of your relationship through this deep spiritual quiz.',
     keywords: [
       'twin flame quiz',
       'karmic relationship',
@@ -241,35 +95,11 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'relationship purpose',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Twin Flame vs Karmic Quiz - QuizzAstrology',
-      description:
-        'Discover if your partner is your Twin Flame or a Karmic Lesson.',
-      url: 'https://quizzastrology.com/category/love/quiz/twin-flame-karmic-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Twin Flame vs Karmic Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Twin Flame vs Karmic Quiz - QuizzAstrology',
-      description:
-        'Discover if your partner is your Twin Flame or a Karmic Lesson.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
   },
   'zodiac-soulmate-quiz': {
-    title: 'Zodiac Soulmate Quiz – Find Your Perfect Match | QuizzAstrology',
+    title: ' Zodiac Soulmate Quiz – Find Your Perfect Match',
     description:
-      'Which zodiac sign is your ideal soulmate? Discover your perfect cosmic match through personality analysis and astrological compatibility.',
+      'Discover which zodiac sign is your ideal soulmate. Get deep astrological insights and find your true cosmic match with this fun and accurate quiz.',
     keywords: [
       'zodiac soulmate',
       'astrology compatibility',
@@ -278,30 +108,214 @@ const hardcodedQuizMetadata: { [key: string]: Metadata } = {
       'cosmic connection',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: 'Zodiac Soulmate Quiz - QuizzAstrology',
-      description:
-        'Discover which zodiac sign is your ideal soulmate and perfect match.',
-      url: 'https://quizzastrology.com/category/love/quiz/zodiac-soulmate-quiz',
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: '/placeholder.svg?height=630&width=1200',
-          width: 1200,
-          height: 630,
-          alt: 'Zodiac Soulmate Quiz',
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Zodiac Soulmate Quiz - QuizzAstrology',
-      description:
-        'Discover which zodiac sign is your ideal soulmate and perfect match.',
-      images: ['/placeholder.svg?height=675&width=1200'],
-    },
+  },
+  'love-compatibility-score-quiz': {
+    title: 'Love Compatibility Score Quiz – Your Relationship Rating',
+    description:
+      'Get your personalized love score based on emotional and astrological analysis. See how compatible you are with your crush or partner.',
+    keywords: [
+      'love compatibility',
+      'compatibility score',
+      'crush analysis',
+      'relationship astrology',
+      'cosmic love match',
+      'QuizzAstrology',
+    ],
+  },
+  'love-prophecy-timing-quiz': {
+    title: 'Love Prophecy Quiz – When Will You Find Love?',
+    description:
+      'Discover when and how you’ll meet your next great love. Let the stars reveal your romantic destiny with this astrology-based love prediction quiz.',
+    keywords: [
+      'love prophecy',
+      'soulmate timing',
+      'romantic destiny',
+      'love prediction',
+      'astrological timing',
+      'QuizzAstrology',
+    ],
+  },
+  'couple-vibe-birthday-quiz': {
+    title: ' Couple Vibe Birthday Quiz – Discover Your Love Archetype',
+    description:
+      'Find your unique couple archetype through astrology and numerology based on birthdays. Uncover relationship dynamics and cosmic compatibility.',
+    keywords: [
+      'couple compatibility',
+      'birthday astrology',
+      'relationship vibe',
+      'cosmic connection',
+      'numerology compatibility',
+      'QuizzAstrology',
+    ],
+  },
+  'soul-contract-quiz': {
+    title: 'Soul Contract Quiz – Are You Past Life Lovers?',
+    description:
+      'Discover the spiritual truth of your connection. Find out if you and your partner share a soul contract or past life bond',
+    keywords: [
+      'soul contracts',
+      'past life lovers',
+      'spiritual connection',
+      'karmic relationships',
+      'sacred bonds',
+      'QuizzAstrology',
+    ],
+  },
+  'soul-number-quiz': {
+    title: 'Soul Number Quiz – Reveal Your Life Purpose',
+    description:
+      'Discover your soul’s deepest purpose and hidden traits through the power of numerology in this insightful personality quiz.',
+    keywords: [
+      'soul number',
+      'numerology quiz',
+      'life purpose',
+      'spiritual numerology',
+      'soul mission',
+      'QuizzAstrology',
+    ],
+  },
+  'luckiest-year-quiz': {
+    title: 'Luckiest Year Quiz – Find Your Year of Fortune',
+    description:
+      'Learn which year will bring you the most luck, success, and opportunities using numerology and cosmic insights.',
+    keywords: [
+      'luckiest year',
+      'fortune prediction',
+      'numerology luck',
+      'cosmic timing',
+      'lucky periods',
+      'QuizzAstrology',
+    ],
+  },
+  'soul-mission-quiz': {
+    title: 'Soul Mission Quiz – Discover Your Sacred Path',
+    description:
+      'Find your divine life mission and spiritual calling based on your birth date and cosmic numerology analysis.',
+    keywords: [
+      'soul mission',
+      'life purpose',
+      'divine calling',
+      'spiritual path',
+      'cosmic blueprint',
+      'QuizzAstrology',
+    ],
+  },
+  'financial-destiny-quiz': {
+    title: 'Financial Destiny Quiz – Uncover Your Wealth Path',
+    description:
+      'Reveal your financial potential and money-making strengths using ancient numerology wisdom and financial astrology.',
+    keywords: [
+      'financial destiny',
+      'wealth potential',
+      'money magnetism',
+      'abundance numerology',
+      'prosperity astrology',
+      'QuizzAstrology',
+    ],
+  },
+  'astro-compatibility-quiz': {
+    title: 'Astro Compatibility Quiz – Are You Star-Matched?',
+    description:
+      'Explore your cosmic connection through astrology. See if you and your partner are truly astro-compatible with a deep relationship analysis.',
+    keywords: [
+      'astro compatibility',
+      'cosmic connection',
+      'relationship astrology',
+      'zodiac compatibility',
+      'love match astrology',
+      'QuizzAstrology',
+    ],
+  },
+  'never-date-quiz': {
+    title: ' Never Date Quiz – Avoid Your Worst Zodiac Match',
+    description:
+      'Discover the zodiac signs you should avoid for love and friendship. Learn your relationship red flags through astrology and psychology.',
+    keywords: [
+      'dating red flags',
+      'zodiac incompatibility',
+      'relationship warnings',
+      'astrology dating',
+      'compatibility analysis',
+      'QuizzAstrology',
+    ],
+  },
+  'tarot-destiny-quiz': {
+    title: 'Tarot Card Reading Quiz – Reveal Your Future',
+    description:
+      'Choose a tarot card and uncover messages for your love, career, and spiritual journey. Discover what destiny has in store for you today.',
+    keywords: [
+      'tarot reading',
+      'future prediction',
+      'mystical guidance',
+      'destiny reveal',
+      'tarot cards',
+      'QuizzAstrology',
+    ],
+  },
+  'cosmic-guidance-quiz': {
+    title: ' Cosmic Guidance Quiz – Unlock Your Spiritual Path',
+    description:
+      'Receive divine messages from the universe. Connect with celestial energies to discover your life purpose and highest potential.',
+    keywords: [
+      'cosmic guidance',
+      'spiritual awakening',
+      'divine messages',
+      'universe connection',
+      'celestial energy',
+      'QuizzAstrology',
+    ],
+  },
+  'psychic-awakening-quiz': {
+    title: 'Psychic Awakening Quiz – Discover Your Hidden Gifts',
+    description:
+      'Unlock your psychic abilities and intuitive potential. Explore clairvoyance, telepathy, and other supernatural talents waiting to be awakened.',
+    keywords: [
+      'psychic abilities',
+      'intuitive awakening',
+      'supernatural gifts',
+      'clairvoyance',
+      'spiritual development',
+      'QuizzAstrology',
+    ],
+  },
+  'monthly-tarot-quiz': {
+    title: 'Monthly Tarot Reading – Your Personalized Forecast',
+    description:
+      'Get your tarot card reading for the month ahead. Receive detailed insights about love, career, and personal growth with cosmic guidance.',
+    keywords: [
+      'monthly tarot',
+      'tarot guidance',
+      'personalized reading',
+      'cosmic insights',
+      'monthly forecast',
+      'QuizzAstrology',
+    ],
+  },
+  'fortune-teller-quiz': {
+    title: 'Premium Fortune Teller Quiz – Crystal Ball Reading',
+    description:
+      'Experience an exclusive crystal ball reading with mystical fortune telling. Gain profound insights into your destiny, future, and hidden truths.',
+    keywords: [
+      'crystal ball reading',
+      'fortune telling',
+      'mystical insights',
+      'destiny reading',
+      'premium fortune',
+      'QuizzAstrology',
+    ],
+  },
+  'eclipse-portal-quiz': {
+    title: 'Eclipse Portal Reading – Discover Your Cosmic Destiny',
+    description:
+      'Step through the lunar eclipse portal to unlock celestial secrets, spiritual wisdom, and transformative guidance from the universe.',
+    keywords: [
+      'eclipse portal',
+      'cosmic destiny',
+      'lunar guidance',
+      'celestial secrets',
+      'transformative reading',
+      'QuizzAstrology',
+    ],
   },
 }
 
@@ -313,16 +327,19 @@ export async function generateStaticParams() {
   }))
 }
 
-// Generate dynamic metadata for each quiz page
 export async function generateMetadata({
   params,
 }: {
   params: { category: string; slug: string }
 }): Promise<Metadata> {
-  // ALWAYS prioritize hardcoded metadata first
-  const hardcodedMetadata = hardcodedQuizMetadata[params.slug]
-  if (hardcodedMetadata) {
-    return hardcodedMetadata
+  // Check for SEO data first
+  const seoData = quizSeoData[params.slug]
+  if (seoData) {
+    return {
+      title: seoData.title,
+      description: seoData.description,
+      keywords: seoData.keywords,
+    }
   }
 
   // Fallback: Find quiz by slug
@@ -346,34 +363,6 @@ export async function generateMetadata({
       'astrology',
       'QuizzAstrology',
     ],
-    openGraph: {
-      title: `${quiz.title} - QuizzAstrology`,
-      description: quiz.description,
-      url: `https://quizzastrology.com/category/${params.category}/quiz/${params.slug}`,
-      siteName: 'QuizzAstrology',
-      images: [
-        {
-          url: `/placeholder.svg?height=630&width=1200&query=${encodeURIComponent(
-            quiz.title
-          )} quiz banner`,
-          width: 1200,
-          height: 630,
-          alt: quiz.title,
-        },
-      ],
-      locale: 'en_US',
-      type: 'article',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${quiz.title} - QuizzAstrology`,
-      description: quiz.description,
-      images: [
-        `/placeholder.svg?height=675&width=1200&query=${encodeURIComponent(
-          quiz.title
-        )} quiz twitter card`,
-      ],
-    },
   }
 }
 

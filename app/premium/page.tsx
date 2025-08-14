@@ -1,8 +1,17 @@
 'use client'
 import { motion } from 'framer-motion'
-import { Crown, Star, Zap, Diamond, Gem, Sparkles } from 'lucide-react'
-import QuizCard from '@/components/quiz-card'
+import {
+  Crown,
+  Star,
+  Zap,
+  Diamond,
+  Sparkles,
+  SnowflakeIcon as Crystal,
+  Moon,
+} from 'lucide-react'
+import Link from 'next/link'
 import { FloatingElements } from '@/components/floating-elements'
+import { localQuizzes } from '@/utils/localQuizData'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -19,53 +28,137 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 }
 
+// Premium Quiz Card Component
+const PremiumQuizCard = ({ quiz }) => {
+  const getQuizIcon = (quizId) => {
+    switch (quizId) {
+      case 'fortune-teller-quiz':
+        return Crystal
+      case 'eclipse-portal-quiz':
+        return Moon
+      case 'psychic-awakening-quiz':
+        return Zap
+      case 'monthly-tarot-quiz':
+        return Star
+      default:
+        return Crown
+    }
+  }
+
+  const IconComponent = getQuizIcon(quiz._id)
+
+  return (
+    <motion.div
+      whileHover={{
+        scale: 1.05,
+        rotateY: 5,
+        boxShadow: '0 25px 50px rgba(0,0,0,0.3)',
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="group relative"
+    >
+      <Link href={`/category/premium/quiz/${quiz._id}`}>
+        <div className="relative bg-gradient-to-br from-yellow-400/20 via-orange-400/20 to-red-400/20 dark:from-yellow-600/20 dark:via-orange-600/20 dark:to-red-600/20 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-yellow-300/30 dark:border-yellow-600/30 overflow-hidden transition-all duration-500 hover:border-yellow-400/50">
+          {/* Premium Badge */}
+          <div className="absolute top-4 right-4 z-20">
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+              PREMIUM ${quiz.price}
+            </div>
+          </div>
+
+          {/* Floating background elements */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute bg-yellow-400/20 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  width: `${Math.random() * 15 + 10}px`,
+                  height: `${Math.random() * 15 + 10}px`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [0.2, 0.6, 0.2],
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: Math.random() * 4 + 3,
+                  repeat: Number.POSITIVE_INFINITY,
+                  delay: Math.random() * 2,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10">
+            {/* Icon */}
+            <motion.div
+              initial={{ scale: 0, rotate: -90 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.1, duration: 0.6, type: 'spring' }}
+              viewport={{ once: true }}
+              className="mb-6"
+            >
+              <div className="relative inline-block">
+                <IconComponent className="w-16 h-16 text-yellow-500 drop-shadow-lg" />
+                <motion.div
+                  className="absolute -inset-4 bg-yellow-400/30 rounded-full blur-xl"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+                />
+              </div>
+            </motion.div>
+
+            {/* Title */}
+            <h3
+              className="text-2xl font-bold mb-4 text-gray-800 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors duration-300"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              {quiz.title}
+            </h3>
+
+            {/* Description */}
+            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              {quiz.description}
+            </p>
+
+            {/* Quiz Details */}
+            <div className="flex justify-between items-center mb-6 text-sm">
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full text-gray-700 dark:text-gray-300">
+                ⏱️ {quiz.duration} min
+              </span>
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full text-gray-700 dark:text-gray-300">
+                👥 {quiz.participants}
+              </span>
+            </div>
+
+            {/* CTA Button */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full"
+            >
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 px-6 rounded-full text-center shadow-lg hover:shadow-xl transition-all duration-300 group-hover:from-yellow-500 group-hover:to-orange-600">
+                Start Premium Reading ✨
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
 export default function PremiumQuizzesPage() {
-  // Premium quizzes data - you can add your 5 premium quizzes here
-  const premiumQuizzes = [
-    {
-      id: 101,
-      title: 'Ultimate Soul Purpose Reading',
-      category: 'Premium',
-      icon: Crown,
-      description:
-        'Discover your deepest life purpose through advanced cosmic analysis',
-      isPremium: true,
-    },
-    {
-      id: 102,
-      title: 'Advanced Twin Flame Connection',
-      category: 'Premium',
-      icon: Diamond,
-      description:
-        'Explore the mystical bond of twin flames and soul connections',
-      isPremium: true,
-    },
-    {
-      id: 103,
-      title: 'Master Numerology Blueprint',
-      category: 'Premium',
-      icon: Gem,
-      description:
-        'Complete numerological analysis of your life path and destiny',
-      isPremium: true,
-    },
-    {
-      id: 104,
-      title: 'Elite Astral Projection Guide',
-      category: 'Premium',
-      icon: Zap,
-      description: 'Learn to navigate the astral realm with expert guidance',
-      isPremium: true,
-    },
-    {
-      id: 105,
-      title: 'Divine Chakra Mastery',
-      category: 'Premium',
-      icon: Star,
-      description: 'Master all seven chakras for complete spiritual alignment',
-      isPremium: true,
-    },
-  ]
+  // Filter premium quizzes by category instead of isPremium
+  const premiumQuizzes = localQuizzes.filter(
+    (quiz) => quiz.category === 'premium'
+  )
 
   return (
     <div className="min-h-screen relative">
@@ -101,7 +194,7 @@ export default function PremiumQuizzesPage() {
                   }}
                   transition={{
                     duration: Math.random() * 5 + 4,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     delay: Math.random() * 3,
                   }}
                 />
@@ -124,7 +217,10 @@ export default function PremiumQuizzesPage() {
                       opacity: [0.5, 0.9, 0.5],
                       rotate: [0, 180, 360],
                     }}
-                    transition={{ duration: 4, repeat: Infinity }}
+                    transition={{
+                      duration: 4,
+                      repeat: Number.POSITIVE_INFINITY,
+                    }}
                   />
                 </div>
               </motion.div>
@@ -228,7 +324,7 @@ export default function PremiumQuizzesPage() {
           </motion.h2>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -236,11 +332,11 @@ export default function PremiumQuizzesPage() {
           >
             {premiumQuizzes.map((quiz, index) => (
               <motion.div
-                key={quiz.id}
+                key={quiz._id}
                 variants={itemVariants}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <QuizCard quiz={quiz} />
+                <PremiumQuizCard quiz={quiz} />
               </motion.div>
             ))}
           </motion.div>
@@ -277,7 +373,9 @@ export default function PremiumQuizzesPage() {
 
               <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
                 Join thousands of spiritual seekers who have discovered their
-                true path through our premium insights.
+                true path through our premium insights. Experience mystical
+                fortune telling, lunar eclipse portals, psychic awakenings, and
+                monthly tarot guidance.
               </p>
 
               <motion.button
@@ -288,7 +386,7 @@ export default function PremiumQuizzesPage() {
                 whileTap={{ scale: 0.95 }}
                 className="px-12 py-4 bg-white text-purple-600 font-bold rounded-full text-lg shadow-xl hover:bg-gray-100 transition-all duration-300"
               >
-                Upgrade to Premium
+                Start Your Premium Experience
               </motion.button>
             </div>
           </div>

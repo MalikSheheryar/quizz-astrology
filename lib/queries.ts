@@ -37,8 +37,15 @@ export const QUIZ_CATEGORIES_QUERY = `*[_type == "quizCategory"] {
 export const QUIZ_CATEGORY_BY_SLUG_QUERY = `*[_type == "quizCategory" && slug.current == $slug][0] {
   _id,
   slug,
-  contentDescription // Only fetching contentDescription now
+  contentDescription
 }`
+
+export const DEBUG_ALL_CATEGORIES_QUERY = `*[_type == "quizCategory"] {
+  _id,
+  slug,
+  contentDescription
+}`
+
 export const LATEST_BLOG_POSTS_QUERY = `
   *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
     _id,

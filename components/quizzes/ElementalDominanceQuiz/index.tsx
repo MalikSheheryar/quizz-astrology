@@ -45,9 +45,6 @@ const ElementalDominanceQuiz = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#EA4C89] to-[#FB8C00] text-white relative overflow-hidden">
       {/* Debug indicator */}
-      <div className="fixed top-4 left-4 bg-black/80 text-white p-2 rounded z-50 text-xs font-mono">
-        Step: {currentStep}
-      </div>
 
       {/* StarField commented out temporarily */}
       {/* <StarField /> */}
@@ -55,18 +52,12 @@ const ElementalDominanceQuiz = () => {
       <div className="relative z-10">
         {currentStep === 'userForm' && (
           <div>
-            <div className="text-center py-4">
-              <p className="text-white/70">🔍 USER FORM ACTIVE</p>
-            </div>
             <UserForm onSubmit={handleUserSubmit} />
           </div>
         )}
 
         {currentStep === 'quiz' && userData && (
           <div>
-            <div className="text-center py-4">
-              <p className="text-white/70">📝 QUIZ ACTIVE</p>
-            </div>
             <QuizComponent
               userData={userData}
               onComplete={handleQuizComplete}
@@ -76,9 +67,6 @@ const ElementalDominanceQuiz = () => {
 
         {currentStep === 'result' && userData && quizResults && (
           <div>
-            <div className="text-center py-4">
-              <p className="text-white/70">🎯 RESULTS ACTIVE</p>
-            </div>
             <>
               {!showFullResult ? (
                 <ShortResult

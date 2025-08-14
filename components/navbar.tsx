@@ -65,7 +65,7 @@ const Navbar = memo(() => {
               transition={{ delay: 0.2, duration: 0.5 }}
               className="text-3xl font-heading font-bold galaxy-text-gradient"
             >
-              Mystic Quiz Hub
+              Quizz Astrology
             </motion.span>
           </Link>
 

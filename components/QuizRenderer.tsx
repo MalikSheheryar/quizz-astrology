@@ -30,11 +30,24 @@ const quizComponents: {
   ZodiacSoulmateQuiz: lazy(() => import('./quizzes/ZodiacSoulmateQuiz')),
   LoveCompatibilityQuiz: lazy(() => import('./quizzes/LoveCompatibilityQuiz')),
   LoveProphecyQuiz: lazy(() => import('./quizzes/LoveProphecyQuiz')),
+  CoupleVibeBirthdayQuiz: lazy(
+    () => import('./quizzes/CoupleVibeBirthdayQuiz')
+  ),
+  SoulContractQuiz: lazy(() => import('./quizzes/SoulContractQuiz')),
   SoulNumberQuiz: lazy(() => import('./quizzes/SoulNumberQuiz')),
   LuckiestYearQuiz: lazy(() => import('./quizzes/LuckiestYearQuiz')),
   SoulMissionQuiz: lazy(() => import('./quizzes/SoulMissionQuiz')),
   FinancialDestinyQuiz: lazy(() => import('./quizzes/FinancialDestinyQuiz')),
-  // Add more quiz components here as you create them
+  AstroCompatibilityQuiz: lazy(
+    () => import('./quizzes/AstroCompatibilityQuiz')
+  ),
+  NeverDateQuiz: lazy(() => import('./quizzes/NeverDateQuiz')),
+  TarotDestinyQuiz: lazy(() => import('./quizzes/TarotDestinyQuiz')),
+  CosmicGuidanceQuiz: lazy(() => import('./quizzes/CosmicGuidanceQuiz')),
+  PsychicAwakeningQuiz: lazy(() => import('./quizzes/PsychicAwakeningQuiz')),
+  MonthlyTarotQuiz: lazy(() => import('./quizzes/MonthlyTarotQuiz')),
+  FortuneTellerQuiz: lazy(() => import('./quizzes/FortuneTellerQuiz')),
+  EclipsePortalQuiz: lazy(() => import('./quizzes/EclipsePortalQuiz')),
 }
 
 const QuizRenderer: React.FC<QuizRendererProps> = ({ slug }) => {
