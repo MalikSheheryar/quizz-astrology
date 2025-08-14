@@ -2,14 +2,15 @@
 
 import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Star, Heart, Zap, Moon, Sun, Sparkles, ArrowRight } from 'lucide-react'
+import { Star, Heart, Moon, Sparkles, ArrowRight } from 'lucide-react'
 import QuizCard from '@/components/quiz-card'
 import BlogCard from '@/components/blog-card'
 import { FloatingElements } from '@/components/floating-elements'
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { client } from '@/lib/client'
 import { LATEST_BLOG_POSTS_QUERY } from '@/lib/queries'
-import { BlogPost } from '@/types/blog'
+import type { BlogPost } from '@/types/blog'
+import {localQuizzes} from '@/utils/localQuizData'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,41 +54,37 @@ export default function HomePage() {
 
   const featuredQuizzes = [
     {
-      id: 1,
-      title: "What's Your Zodiac Personality?",
-      category: 'Astrology',
+      id: localQuizzes[0]._id,
+      title: localQuizzes[0].title,
+      category: localQuizzes[0].category,
       icon: Star,
-      description:
-        'Discover your true astrological nature and cosmic blueprint',
+      description: localQuizzes[0].description,
+      slug: localQuizzes[0].slug,
+      duration: localQuizzes[0].duration,
+      participants: localQuizzes[0].participants,
+      difficulty: localQuizzes[0].difficulty,
     },
     {
-      id: 2,
-      title: 'Love Compatibility Test',
-      category: 'Love',
+      id: localQuizzes[6]._id,
+      title: localQuizzes[6].title,
+      category: localQuizzes[6].category,
       icon: Heart,
-      description:
-        'Find your perfect romantic match through celestial alignment',
+      description: localQuizzes[6].description,
+      slug: localQuizzes[6].slug,
+      duration: localQuizzes[6].duration,
+      participants: localQuizzes[6].participants,
+      difficulty: localQuizzes[6].difficulty,
     },
     {
-      id: 3,
-      title: 'Your Life Path Number',
-      category: 'Numerology',
-      icon: Zap,
-      description: 'Uncover your destiny through sacred numerical wisdom',
-    },
-    {
-      id: 4,
-      title: 'Daily Tarot Reading',
-      category: 'Tarot',
+      id: localQuizzes[18]._id,
+      title: localQuizzes[18].title,
+      category: localQuizzes[18].category,
       icon: Moon,
-      description: 'Get mystical insights for your spiritual journey',
-    },
-    {
-      id: 5,
-      title: 'Spiritual Awakening Level',
-      category: 'Spiritual',
-      icon: Sun,
-      description: 'Measure your consciousness and spiritual evolution',
+      description: localQuizzes[18].description,
+      slug: localQuizzes[18].slug,
+      duration: localQuizzes[18].duration,
+      participants: localQuizzes[18].participants,
+      difficulty: localQuizzes[18].difficulty,
     },
   ]
 
@@ -127,7 +124,7 @@ export default function HomePage() {
               }}
               transition={{
                 duration: Math.random() * 2 + 2,
-                repeat: Infinity,
+                repeat: Number.POSITIVE_INFINITY,
                 delay: Math.random() * 2,
               }}
             />
@@ -145,7 +142,7 @@ export default function HomePage() {
               <motion.div
                 className="absolute -inset-4 bg-gradient-to-r from-[#E67E22]/20 to-[#E74C3C]/20 rounded-full blur-xl"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity }}
+                transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
               />
             </div>
           </motion.div>
@@ -180,7 +177,7 @@ export default function HomePage() {
                 boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
               }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full shadow-2xl transition-all duration-300 overflow-hidden"
+              className="group relative px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full shadow-2xl transition-local duration-300 overflow-hidden"
             >
               <span className="relative z-10 flex items-center">
                 Start Your Journey
@@ -190,7 +187,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 bg-[#2C3E50]/80 backdrop-blur-md border border-[#8E44AD]/30 text-[#ECF0F1] text-lg font-semibold rounded-full hover:bg-[#2C3E50] transition-all duration-300 shadow-xl"
+              className="px-10 py-4 bg-[#2C3E50]/80 backdrop-blur-md border border-[#8E44AD]/30 text-[#ECF0F1] text-lg font-semibold rounded-full hover:bg-[#2C3E50] transition-local duration-300 shadow-xl"
             >
               Explore Quizzes
             </motion.button>
@@ -230,7 +227,7 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-      {/* Call to Action */}
+      {/* Clocal to Action */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -267,7 +264,7 @@ export default function HomePage() {
               boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
             }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full transition-all duration-300 shadow-2xl"
+            className="px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full transition-local duration-300 shadow-2xl"
           >
             Get Personal Reading
           </motion.button>
@@ -295,7 +292,11 @@ export default function HomePage() {
             <div className="text-center py-16">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                transition={{
+                  duration: 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: 'linear',
+                }}
                 className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
               />
               <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -339,9 +340,9 @@ export default function HomePage() {
           >
             <Link
               href="/blog"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#8E44AD] to-[#E67E22] hover:from-[#7D3C98] hover:to-[#D35400] text-white font-semibold rounded-full transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#8E44AD] to-[#E67E22] hover:from-[#7D3C98] hover:to-[#D35400] text-white font-semibold rounded-full transition-local duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
             >
-              View All Articles
+              View local Articles
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </motion.div>

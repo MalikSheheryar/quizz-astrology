@@ -1,35 +1,35 @@
-"use client"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { CrystalBall } from "./CrystalBall"
-import { MagicalSymbols } from "./MagicalSymbols"
+'use client'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { CrystalBall } from './CrystalBall'
+import MagicalSymbols from './MagicalSymbols'
 
 const questions = [
   {
     id: 1,
-    question: "What area of your life needs the most mystical guidance?",
+    question: 'What area of your life needs the most mystical guidance?',
     options: [
-      { id: "love", text: "Love & Relationships", icon: "💕" },
-      { id: "career", text: "Career & Purpose", icon: "⭐" },
-      { id: "destiny", text: "Life Path & Destiny", icon: "🔮" },
+      { id: 'love', text: 'Love & Relationships', icon: '💕' },
+      { id: 'career', text: 'Career & Purpose', icon: '⭐' },
+      { id: 'destiny', text: 'Life Path & Destiny', icon: '🔮' },
     ],
   },
   {
     id: 2,
-    question: "How strongly do you believe in fate and destiny?",
+    question: 'How strongly do you believe in fate and destiny?',
     options: [
-      { id: "strong", text: "Everything is predetermined", icon: "🌟" },
-      { id: "moderate", text: "Some things are meant to be", icon: "✨" },
-      { id: "weak", text: "We create our own destiny", icon: "🎯" },
+      { id: 'strong', text: 'Everything is predetermined', icon: '🌟' },
+      { id: 'moderate', text: 'Some things are meant to be', icon: '✨' },
+      { id: 'weak', text: 'We create our own destiny', icon: '🎯' },
     ],
   },
   {
     id: 3,
-    question: "Choose the mystical symbol that calls to your soul:",
+    question: 'Choose the mystical symbol that calls to your soul:',
     options: [
-      { id: "moon", text: "Crescent Moon", icon: "🌙" },
-      { id: "star", text: "Five-Pointed Star", icon: "⭐" },
-      { id: "crystal", text: "Sacred Crystal", icon: "💎" },
+      { id: 'moon', text: 'Crescent Moon', icon: '🌙' },
+      { id: 'star', text: 'Five-Pointed Star', icon: '⭐' },
+      { id: 'crystal', text: 'Sacred Crystal', icon: '💎' },
     ],
   },
 ]
@@ -66,7 +66,10 @@ export default function QuizEngine({ userData, onComplete }) {
               transition={{ duration: 0.8 }}
               className="text-center mb-8"
             >
-              <CrystalBall onReveal={() => setShowCrystalBall(false)} questionNumber={currentQuestion + 1} />
+              <CrystalBall
+                onReveal={() => setShowCrystalBall(false)}
+                questionNumber={currentQuestion + 1}
+              />
             </motion.div>
           )}
 
@@ -91,7 +94,7 @@ export default function QuizEngine({ userData, onComplete }) {
                   </div>
                   <h2
                     className="text-2xl md:text-3xl font-bold text-white mb-8"
-                    style={{ fontFamily: "Playfair Display, serif" }}
+                    style={{ fontFamily: 'Playfair Display, serif' }}
                   >
                     {currentQ.question}
                   </h2>
@@ -106,7 +109,7 @@ export default function QuizEngine({ userData, onComplete }) {
                       transition={{ delay: 0.4 + index * 0.1 }}
                       whileHover={{
                         scale: 1.05,
-                        boxShadow: "0 10px 30px rgba(168, 85, 247, 0.3)",
+                        boxShadow: '0 10px 30px rgba(168, 85, 247, 0.3)',
                       }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleAnswer(option.id)}
