@@ -173,13 +173,6 @@ const FullResult: React.FC<FullResultProps> = ({ userData, results }) => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       {/* Debug info */}
-      <div className="fixed top-20 left-4 bg-black/80 text-white p-2 rounded z-50 text-xs font-mono">
-        FullResult Active
-        <br />
-        Element: {results.dominantElement}
-        <br />
-        Valid: {element ? 'Yes' : 'No'}
-      </div>
 
       <div className="w-full max-w-4xl">
         <motion.div
