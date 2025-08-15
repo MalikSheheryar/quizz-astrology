@@ -10,7 +10,7 @@ import { useRef, useState, useEffect } from 'react'
 import { client } from '@/lib/client'
 import { LATEST_BLOG_POSTS_QUERY } from '@/lib/queries'
 import type { BlogPost } from '@/types/blog'
-import {localQuizzes} from '@/utils/localQuizData'
+import { localQuizzes } from '@/utils/localQuizData'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -171,26 +171,38 @@ export default function HomePage() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full shadow-2xl transition-local duration-300 overflow-hidden"
+            <Link
+              href="https://0aa32hqho3n1az8eh7vgz5sy8c.hop.clickbank.net"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <span className="relative z-10 flex items-center">
-                Start Your Journey
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 bg-[#2C3E50]/80 backdrop-blur-md border border-[#8E44AD]/30 text-[#ECF0F1] text-lg font-semibold rounded-full hover:bg-[#2C3E50] transition-local duration-300 shadow-xl"
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: '0 20px 40px rgba(231, 76, 60, 0.4)',
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative px-10 py-4 bg-[#E74C3C] hover:bg-[#C0392B] text-white text-lg font-semibold rounded-full shadow-2xl transition-local duration-300 overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center">
+                  Start Your Journey
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.button>
+            </Link>
+            <Link
+              href="https://quizzastrology.com/category/astrology"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Explore Quizzes
-            </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-4 bg-[#2C3E50]/80 backdrop-blur-md border border-[#8E44AD]/30 text-[#ECF0F1] text-lg font-semibold rounded-full hover:bg-[#2C3E50] transition-local duration-300 shadow-xl"
+              >
+                Explore Quizzes
+              </motion.button>
+            </Link>
           </motion.div>
         </div>
       </motion.section>

@@ -378,16 +378,22 @@ export default function PremiumQuizzesPage() {
                 monthly tarot guidance.
               </p>
 
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="px-12 py-4 bg-white text-purple-600 font-bold rounded-full text-lg shadow-xl hover:bg-gray-100 transition-all duration-300"
+              <Link
+                href="https://0aa32hqho3n1az8eh7vgz5sy8c.hop.clickbank.net"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Start Your Premium Experience
-              </motion.button>
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-12 py-4 bg-white text-purple-600 font-bold rounded-full text-lg shadow-xl hover:bg-gray-100 transition-all duration-300"
+                >
+                  Start Your Premium Experience
+                </motion.button>
+              </Link>
             </div>
           </div>
         </motion.div>
